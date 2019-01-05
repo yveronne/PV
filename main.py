@@ -28,15 +28,14 @@ for bureau in bureauVotes_List:
 number_of_coalised_party = random.randint(1, len(PARTIES_LIST) - 1)
 coalised_group = Fonction.generateTabRandomElementsDiff(number_of_coalised_party, len(PARTIES_LIST))
 party_favorite = random.choice(coalised_group)
-print('il ya coalition ' + str(COALITION_MODE))
-print('le groupe qui fait la coalition est :' + str(coalised_group))
-print('le party choisi est :' + str(party_favorite))
+#print('il ya coalition ' + str(COALITION_MODE))
+#print('le groupe qui fait la coalition est :' + str(coalised_group))
+#print('le party choisi est :' + str(party_favorite))
 
 for bureau in bureauVotes_List:
     bureau.all_pv = Fonction.generatePVForBureauWithCoalitionMode(bureau.results.party_results, COALITION_MODE,
                                                                   party_favorite,
                                                                   coalised_group)
-
 for bureau in bureauVotes_List:
     t = random.choices([0, 1], [0.35, 0.65])[0]
     if t:
@@ -47,10 +46,12 @@ for bureau in bureauVotes_List:
         pv = PV("Elecam")
         pv.party_results = bureau.results.party_results
         bureau.elecam_pv = pv
+
 for bureau in bureauVotes_List:
     print(bureau)
     for item in bureau.all_pv:
         print(item)
+
 
 # Creation de tous les dossiers
 
@@ -66,12 +67,15 @@ if not os.path.exists(os.path.join(os.path.dirname(__file__), 'PV_PDF', 'REAL_RE
 if not os.path.exists(os.path.join(os.path.dirname(__file__), 'PV_PDF', 'ELECAM')):
     os.makedirs(os.path.join(os.path.dirname(__file__), 'PV_PDF', 'ELECAM'))
 
+
+
 # Generating PDF files
 from fpdf import FPDF
 
 width_cell, height_cell = 150, 40
 
 for bureau in bureauVotes_List:
+
     for PV in bureau.all_pv:
         pdf = FPDF(orientation='P', unit='pt', format='A4')
         pdf.add_page()
@@ -104,7 +108,12 @@ for bureau in bureauVotes_List:
             pdf.cell(2 * width_cell, height_cell,
                      "Scrutateur_" + str(PARTIES_LIST[index]) + "_" + str(bureau.name), 1, 1, 'L', 0)
 
-        pdf.output('PV_PDF/' + str(PV.party_name) + '/PV - ' + str(bureau.name) + '.pdf')
+        pdf.output('PVGenerator/PV_PDF/' + str(PV.party_name) + '/PV_' + str(bureau.name) + '.pdf', 'F')
+        #pdf.output('a.pdf')
+        #pdf.output('','PV_PDF/' + str(PV.party_name) + '/PV_' + str(bureau.name) + '.pdf')
+
+
+
 
     # pour mettre les PV d'elecam
     pdf = FPDF(orientation='P', unit='pt', format='A4')
@@ -138,7 +147,7 @@ for bureau in bureauVotes_List:
         pdf.cell(2 * width_cell, height_cell,
                  "Scrutateur_" + str(PARTIES_LIST[index]) + "_" + str(bureau.name), 1, 1, 'L', 0)
 
-    pdf.output('PV_PDF/ELECAM/PV - Elecam_' + str(bureau.name) + '.pdf')
+    pdf.output('PVGenerator/PV_PDF/ELECAM/PV_Elecam_' + str(bureau.name) + '.pdf')
 
     # pour mettre les PV de reference
     pdf = FPDF(orientation='P', unit='pt', format='A4')
@@ -172,4 +181,6 @@ for bureau in bureauVotes_List:
         pdf.cell(2 * width_cell, height_cell,
                  "Scrutateur_" + str(PARTIES_LIST[index]) + "_" + str(bureau.name), 1, 1, 'L', 0)
 
-    pdf.output('PV_PDF/REAL_RESULT/PV - Gagnant_' + str(bureau.name) + '.pdf')
+    pdf.output('PVGenerator/PV_PDF/REAL_RESULT/PV_Gagnant_' + str(bureau.name) + '.pdf')
+
+
