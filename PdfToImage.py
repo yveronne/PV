@@ -3,6 +3,11 @@ from pdf2jpg import pdf2jpg
 
 from variable import PARTIES_LIST
 
+import shutil
+if os.path.exists(os.path.join(os.path.dirname(__file__), 'PV_IMAGE')):
+    shutil.rmtree(os.path.join(os.path.dirname(__file__), 'PV_IMAGE'))
+
+
 for party in PARTIES_LIST:
     if not os.path.exists(os.path.join(os.path.dirname(__file__), 'PV_IMAGE', party)):
         os.makedirs(os.path.join(os.path.dirname(__file__), 'PV_IMAGE', party))

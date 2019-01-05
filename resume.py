@@ -33,11 +33,6 @@ variable.PARTIES_LIST = variable.PARTIES_LIST[:int(sys.argv[1])]
 variable.BUREAU_VOTES_NUMBER = int(sys.argv[2])
 variable.ENROLLED_PEOPLE_NUMBER = int(sys.argv[3])
 variable.COALITION_MODE = int(sys.argv[4])
-
-import os
-import shutil
-if os.path.exists(os.path.join(os.path.dirname(__file__), 'PV_IMAGE')):
-    shutil.rmtree(os.path.join(os.path.dirname(__file__), 'PV_IMAGE'))
 import main
 import PdfToImage
 import OCR
